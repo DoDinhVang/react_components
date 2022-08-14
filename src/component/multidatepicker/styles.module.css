@@ -1,0 +1,13 @@
+.datePicker {
+  visibility: hidden;
+  height: 0;
+  padding: 0;
+  width: 0;
+  position: absolute;
+}
+:global(.ant-select-selector) {
+  height: 45px;
+  width: 291px;
+  background: #f1f1f1 !important;
+  border-radius: 10px !important;
+}
