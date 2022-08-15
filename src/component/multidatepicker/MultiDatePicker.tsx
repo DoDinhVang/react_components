@@ -3,6 +3,7 @@ import { Calendar, DatePicker, Select, TagProps } from "antd";
 import styles from "./styles.module.css";
 import moment from "moment";
 import { RangePickerProps } from "antd/lib/date-picker";
+import YearPicker from "../yearpicker/YearPicker";
 
 const { Option } = Select;
 export default function MultiDatePicker() {
@@ -14,7 +15,10 @@ export default function MultiDatePicker() {
     "2017",
     "2016",
   ]);
-  const [datePickerOpen, setDatePickerOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const showDatePicker = () => {
+    setOpen(!open);
+  };
   const handleChange = (value: string[]) => {
     console.log(`selected ${value}`);
   };
@@ -33,60 +37,42 @@ export default function MultiDatePicker() {
     console.log("valueProps", value);
     return <span>{value}, </span>;
   };
-  const disabledDate: RangePickerProps["disabledDate"] = (current) => {
-    return current > moment().endOf("day");
-  };
+  
   return (
-    <Select
-      className={styles.select}
-      mode="multiple"
-      allowClear={false}
-      clearIcon={""}
-      style={{ width: "291px", height: "45px" }}
-      placeholder="Please select"
-      value={arrValue}
-      onChange={handleChange}
-      onClick={() => {
-        setDatePickerOpen(true);
-      }}
-      suffixIcon={<>bames</>}
-      showArrow={true}
-      tagRender={renderTag}
-      dropdownRender={() => {
-        return (
-          <DatePicker
-            onChange={hanleDatePickerChange}
-            open={datePickerOpen}
-            onOpenChange={setDatePickerOpen}
-            className={styles.datePicker}
-            picker="year"
-            format={"YYYY"}
-            suffixIcon={<></>}         
-            dateRender={(currentDate) => {
-              console.log("current",  currentDate.year().toString() );
-              const style: React.CSSProperties = {};
-              const year = currentDate.year().toString();
-              if (
-                year === arrValue[0] ||
-                year === arrValue[1] ||
-                year === arrValue[2] ||
-                year === arrValue[3] ||
-                year === arrValue[4]
-              ) {
-                style.border = "1px solid #1890ff";
-                style.borderRadius = "50%";
-                return (
-                  <div className="ant-picker-cell-inner" style={style}>
-                    {year}
-                  </div>
-                );
-              } else {
-                return <div className="ant-picker-cell-inner" style={{background: "red"}}>{year}</div>;
-              }
-            }}
-          />
-        );
-      }}
-    ></Select>
+    <>
+      <Select
+        className={styles.select}
+        mode="multiple"
+        allowClear={false}
+        clearIcon={""}
+        style={{ width: "291px", height: "45px" }}
+        placeholder="Please select"
+        value={arrValue}
+        onChange={handleChange}
+        onClick={showDatePicker}
+        suffixIcon={<>bames</>}
+        showArrow={true}
+        tagRender={renderTag}
+        dropdownRender={() => {
+          return (
+            <YearPicker
+              yearArray={[]}
+              hideInput={true}
+              openPicker={showDatePicker}
+              isOpenPicker={true}
+              rangYears={["2022", "2021", "2019", "2018", "2017"]}
+              // activeIcon={img src}
+              // icon={img src}
+              // leftIcon={img src}
+              // rightIcon={img src}
+              minRange={1800}
+              maxRange={2100}
+            />
+           
+          );
+        }}
+      ></Select>
+     
+    </>
   );
 }
