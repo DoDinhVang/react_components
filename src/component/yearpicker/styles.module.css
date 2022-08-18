@@ -1,0 +1,23 @@
+.wrapper{
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    border: none;
+    background-color: white;
+    height: 200px;
+    overflow-y: auto;
+    overscroll-behavior: none;
+   
+
+}
+.wrapper button{
+    background: white;
+    border: none;
+    color: black;
+    cursor: pointer;
+    padding: 10px;
+}
+.wrapper button:disabled{
+     color: #c3c3c3;
+     cursor: not-allowed;
+     
+}

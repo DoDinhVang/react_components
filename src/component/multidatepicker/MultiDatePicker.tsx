@@ -15,15 +15,8 @@ export default function MultiDatePicker() {
     "2017",
     "2016",
   ]);
-  const [open, setOpen] = useState(false);
-  const showDatePicker = () => {
-    setOpen(!open);
-  };
-  const handleChange = (value: string[]) => {
-    console.log(`selected ${value}`);
-  };
-  const hanleDatePickerChange = (date: any) => {
-    const year = parseInt(moment(date).format("YYYY"));
+
+  const hanleDatePickerChange = (year: number) => {
     setArrayValue(getYears(year, 5));
   };
   const getYears = (endYear: number, numberYears: number) => {
@@ -37,7 +30,9 @@ export default function MultiDatePicker() {
     console.log("valueProps", value);
     return <span>{value}, </span>;
   };
-  
+  const rangyear = (year: number) => {
+    return year > parseInt(moment(new Date()).format("YYYY"));
+  };
   return (
     <>
       <Select
@@ -48,31 +43,26 @@ export default function MultiDatePicker() {
         style={{ width: "291px", height: "45px" }}
         placeholder="Please select"
         value={arrValue}
-        onChange={handleChange}
-        onClick={showDatePicker}
         suffixIcon={<>bames</>}
         showArrow={true}
         tagRender={renderTag}
+        onDropdownVisibleChange={(open) => {
+          if (open) {
+            document.body.style.overflow = "hidden";
+          } else {
+            document.body.style.overflow = "auto";
+          }
+        }}
         dropdownRender={() => {
           return (
             <YearPicker
-              yearArray={[]}
               hideInput={true}
-              openPicker={showDatePicker}
-              isOpenPicker={true}
-              rangYears={["2022", "2021", "2019", "2018", "2017"]}
-              // activeIcon={img src}
-              // icon={img src}
-              // leftIcon={img src}
-              // rightIcon={img src}
-              minRange={1800}
-              maxRange={2100}
+              onChange={hanleDatePickerChange}
+              rangeDisable={rangyear}
             />
-           
           );
         }}
       ></Select>
-     
     </>
   );
 }
